@@ -6,17 +6,17 @@ import Papa from "papaparse";
 // Allowed extensions for input file
 const allowedExtensions = ["csv"];
 
-function send_data(dict) {
+async function send_data(dict) {
     
-  // Send data to the backend via POST
-  fetch('http://localhost:8090/', {  // Enter your IP address here
-
-    method: 'POST', 
-    mode: 'cors', 
-    body: JSON.stringify(dict) // body data type must match "Content-Type" header
-
-  })
-  
+  const requestOptions = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(dict)
+  };
+  const response = await fetch('http://localhost:8090/handle', requestOptions);
+  console.log("sent");
+  const data = await response.json();
+  console.log(data);
 }
 
 
