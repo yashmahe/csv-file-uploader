@@ -1,7 +1,8 @@
-import React, {useState, useEffect } from 'react';
+import React, {useState } from 'react';
 // import Stack from '@mui/material/Stack';
 // import CircularProgress from '@mui/material/CircularProgress';
 import Papa from "papaparse";
+import './App.css';
 
 // Allowed extensions for input file
 const allowedExtensions = ["csv"];
@@ -23,7 +24,7 @@ async function send_data(dict) {
 const App = () => {
   
   // This state will store the parsed data
-  const [data, setData] = useState([]);
+  //const [data, setData] = useState([]);
   
   // It state will contain the error when
   // correct file extension is not used
@@ -71,9 +72,7 @@ const App = () => {
     reader.onload = async ({ target }) => {
       const csv = Papa.parse(target.result, { header: true });
       const parsedData = csv?.data;
-      // const finaljson = {"image_id":[],}
-
-      const columns = Object.values(parsedData[1]);
+      //const columns = Object.values(parsedData[1]);
       console.log(parsedData);
       const img_id = [];
       const img_url = [];
@@ -91,30 +90,35 @@ const App = () => {
       send_data(dict);
       
 
-      setData(columns);
+      //setData(columns);
     };
     reader.readAsText(file);
   };
 
   return (
-    <div>
-      <label htmlFor="csvInput" style={{ display: "block" }}>
-        Enter CSV File
-      </label>
-      <input
+    <div className="page">
+        <div className="container">
+          <h1 className="heading"> Enter CSV File </h1>
+          <input
         onChange={handleFileChange}
         id="csvInput"
         name="file"
         type="File"
       />
       <div>
-        <button onClick={handleParse}>Parse</button>
+        <button onClick={handleParse}>Submit</button>
+        <div style={{ marginTop: "3rem" }}>
+        {error ? error : "" }
       </div>
-      <div style={{ marginTop: "3rem" }}>
-        {error ? error : data.map((col,
-        idx) => <div key={idx}>{col}</div>)}
+      {/* </div>
+      
+      </div> */}
       </div>
-    </div>
+      </div>
+      </div>
+
+
+ 
   );
 };
 
