@@ -1,6 +1,7 @@
 import React, {useState } from 'react';
 import Button from '@material-ui/core/Button';
 import Stack from '@mui/material/Stack';
+import AddIcon from "@material-ui/icons/Add";
 // import CircularProgress from '@mui/material/CircularProgress';
 import Papa from "papaparse";
 import './App.css';
@@ -101,20 +102,22 @@ const App = () => {
     <div className="page">
         <div className="container">
           <h1 className="heading"> Enter CSV File </h1>
+      <div style={{ marginTop: "1rem" }}><br></br></div>  
           <input
         onChange={handleFileChange}
         id="csvInput"
         name="file"
         type="File"
       />
-      <div>
+      <div style={{ marginTop: "1rem" }}><br></br></div>
+      <div className='App'>
       <Button variant="contained" onClick={handleParse}>Submit</Button>
       <div style={{ marginTop: "1rem" }}>
       {error ? error : "" }
       </div>
+    </div>
       </div>
-      </div>
-      </div>
+      </div>      
   );
 };
 
