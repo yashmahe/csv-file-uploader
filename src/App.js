@@ -1,10 +1,24 @@
 import React, {useState, useEffect } from 'react';
-import Stack from '@mui/material/Stack';
-import CircularProgress from '@mui/material/CircularProgress';
+// import Stack from '@mui/material/Stack';
+// import CircularProgress from '@mui/material/CircularProgress';
 import Papa from "papaparse";
 
 // Allowed extensions for input file
 const allowedExtensions = ["csv"];
+
+function send_data(dict) {
+    
+  // Send data to the backend via POST
+  fetch('http://localhost:8090/', {  // Enter your IP address here
+
+    method: 'POST', 
+    mode: 'cors', 
+    body: JSON.stringify(dict) // body data type must match "Content-Type" header
+
+  })
+  
+}
+
 
 const App = () => {
   
@@ -40,6 +54,8 @@ const App = () => {
       setFile(inputFile);
     }
   };
+
+  
   const handleParse = () => {
     
     // If user clicks the parse button without
@@ -55,10 +71,26 @@ const App = () => {
     reader.onload = async ({ target }) => {
       const csv = Papa.parse(target.result, { header: true });
       const parsedData = csv?.data;
-      const finaljson = {"image_id":[],}
+      // const finaljson = {"image_id":[],}
 
       const columns = Object.values(parsedData[1]);
       console.log(parsedData);
+      const img_id = [];
+      const img_url = [];
+
+      for (let i = 0; i < parsedData.length; i++) {
+        img_id.push(parsedData[i].image_id)
+        img_url.push(parsedData[i].image_url)
+      }
+      var dict = {};
+      dict["Item_ids"] = img_id;
+      dict["Images"] = img_url;
+      dict["Is_csv"] = true;
+
+      console.log(dict);
+      send_data(dict);
+      
+
       setData(columns);
     };
     reader.readAsText(file);
