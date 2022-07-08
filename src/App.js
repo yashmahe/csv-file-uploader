@@ -9,18 +9,7 @@ import './App.css';
 // Allowed extensions for input file
 const allowedExtensions = ["csv"];
 
-async function send_data(dict) {
-    
-  const requestOptions = {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(dict)
-  };
-  const response = await fetch('http://localhost:8090/handle', requestOptions);
-  console.log("sent");
-  const data = await response.json();
-  console.log(data);
-}
+
 
 
 const App = () => {
@@ -37,6 +26,19 @@ const App = () => {
 
   // This function will be called when
   // the file input changes
+  async function send_data(dict) {
+    
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(dict)
+    };
+    const response = await fetch('http://localhost:8090/handle', requestOptions);
+    console.log("sent");
+    const data = await response.json();
+    setError(data.Error);
+  }
+
   const handleFileChange = (e) => {
     setError("");
     
